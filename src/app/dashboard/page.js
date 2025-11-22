@@ -113,6 +113,20 @@ export default function DashboardPage() {
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Segments - Now Active */}
+              <button 
+                onClick={() => router.push('/dashboard/segments')}
+                className="p-4 border-2 border-[#526bb0] bg-gradient-to-br from-[#526bb0]/10 to-[#01adbd]/10 rounded-lg hover:shadow-lg transition text-left group"
+              >
+                <div className="text-2xl mb-2">👥</div>
+                <h4 className="font-medium text-[#041d36] group-hover:text-[#526bb0]">
+                  Customer Segments
+                </h4>
+                <p className="text-sm text-[#604e43] mt-1">
+                  Upload and manage target customer lists
+                </p>
+              </button>
+
               <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
                 <div className="text-2xl mb-2">📊</div>
                 <h4 className="font-medium text-[#041d36]">Analytics</h4>
