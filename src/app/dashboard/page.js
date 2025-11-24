@@ -127,6 +127,20 @@ export default function DashboardPage() {
                 </p>
               </button>
 
+              {/* Campaigns - Now Active */}
+              <button 
+                onClick={() => router.push('/dashboard/campaigns')}
+                className="p-4 border-2 border-[#01adbd] bg-gradient-to-br from-[#01adbd]/10 to-[#5fcde0]/10 rounded-lg hover:shadow-lg transition text-left group"
+              >
+                <div className="text-2xl mb-2">🎯</div>
+                <h4 className="font-medium text-[#041d36] group-hover:text-[#01adbd]">
+                  Campaigns
+                </h4>
+                <p className="text-sm text-[#604e43] mt-1">
+                  Create and manage marketing campaigns
+                </p>
+              </button>
+
               <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
                 <div className="text-2xl mb-2">📊</div>
                 <h4 className="font-medium text-[#041d36]">Analytics</h4>
@@ -134,9 +148,9 @@ export default function DashboardPage() {
               </button>
 
               <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
-                <div className="text-2xl mb-2">🎯</div>
-                <h4 className="font-medium text-[#041d36]">Campaigns</h4>
-                <p className="text-sm text-[#604e43] mt-1">Manage your campaigns</p>
+                <div className="text-2xl mb-2">🔄</div>
+                <h4 className="font-medium text-[#041d36]">Automation</h4>
+                <p className="text-sm text-[#604e43] mt-1">Set up workflow automation</p>
               </button>
 
               <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
