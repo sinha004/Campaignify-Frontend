@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(request) {
-  // Middleware runs on server, can't access localStorage
+export function proxy(request) {
+  // Proxy runs on server, can't access localStorage
   // Let client-side handle authentication redirects
   return NextResponse.next();
 }
