@@ -112,7 +112,7 @@ export default function DashboardPage() {
             <h3 className="text-lg font-semibold text-[#041d36]">Quick Actions</h3>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
               {/* Segments - Now Active */}
               <button 
                 onClick={() => router.push('/dashboard/segments')}
@@ -139,24 +139,6 @@ export default function DashboardPage() {
                 <p className="text-sm text-[#604e43] mt-1">
                   Create and manage marketing campaigns
                 </p>
-              </button>
-
-              <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
-                <div className="text-2xl mb-2">📊</div>
-                <h4 className="font-medium text-[#041d36]">Analytics</h4>
-                <p className="text-sm text-[#604e43] mt-1">View your marketing analytics</p>
-              </button>
-
-              <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
-                <div className="text-2xl mb-2">🔄</div>
-                <h4 className="font-medium text-[#041d36]">Automation</h4>
-                <p className="text-sm text-[#604e43] mt-1">Set up workflow automation</p>
-              </button>
-
-              <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#526bb0] hover:bg-[#526bb0]/10 transition text-left">
-                <div className="text-2xl mb-2">⚙️</div>
-                <h4 className="font-medium text-[#041d36]">Settings</h4>
-                <p className="text-sm text-[#604e43] mt-1">Update your preferences</p>
               </button>
             </div>
           </div>
