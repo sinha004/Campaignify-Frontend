@@ -83,43 +83,59 @@ export default function CreateCampaignPage() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fbfbfd] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#526bb0] mx-auto mb-4"></div>
-          <p className="text-[#041d36] font-semibold">Loading...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#526bb0] border-t-transparent mx-auto mb-4"></div>
+          <p className="text-[#86868b]">Loading...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] p-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-[#fbfbfd]">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 glass border-b border-gray-200/50">
+        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => router.push('/dashboard/campaigns')}
+              className="text-[#526bb0] hover:text-[#01adbd] transition-colors flex items-center gap-2 text-sm font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Campaigns
+            </button>
+          </div>
+          <span className="text-[#1d1d1f] font-semibold">Campaignify</span>
+        </div>
+      </nav>
+
+      <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => router.push('/dashboard/campaigns')}
-            className="text-[#526bb0] hover:text-[#041d36] mb-4 flex items-center gap-2"
-          >
-            ← Back to Campaigns
-          </button>
-          <h1 className="text-4xl font-bold text-[#041d36] mb-2">Create New Campaign</h1>
-          <p className="text-gray-600">Set up your marketing campaign</p>
+        <div className="text-center mb-12 animate-fadeInUp">
+          <h1 className="text-4xl font-semibold text-[#1d1d1f] tracking-tight mb-3">
+            Create Campaign
+          </h1>
+          <p className="text-lg text-[#86868b]">
+            Set up your marketing campaign in minutes
+          </p>
         </div>
 
-        {/* Form */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 animate-fadeInUp animation-delay-100">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-              <p className="text-red-700">{error}</p>
+            <div className="bg-red-50 border border-red-100 rounded-xl p-4 mb-6">
+              <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Campaign Name */}
             <div>
-              <label htmlFor="name" className="block text-[#041d36] font-semibold mb-2">
-                Campaign Name *
+              <label htmlFor="name" className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                Campaign Name
               </label>
               <input
                 type="text"
@@ -128,15 +144,15 @@ export default function CreateCampaignPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#526bb0] focus:border-transparent outline-none transition text-[#041d36] placeholder:text-gray-400"
+                className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f] placeholder:text-[#86868b]"
                 placeholder="e.g., Summer Sale 2025"
               />
             </div>
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-[#041d36] font-semibold mb-2">
-                Description
+              <label htmlFor="description" className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                Description <span className="text-[#86868b] font-normal">(optional)</span>
               </label>
               <textarea
                 id="description"
@@ -144,15 +160,15 @@ export default function CreateCampaignPage() {
                 value={formData.description}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#526bb0] focus:border-transparent outline-none transition text-[#041d36] placeholder:text-gray-400"
+                className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f] placeholder:text-[#86868b] resize-none"
                 placeholder="Describe your campaign objectives..."
               />
             </div>
 
             {/* Segment Selection */}
             <div>
-              <label htmlFor="segmentId" className="block text-[#041d36] font-semibold mb-2">
-                Target Segment *
+              <label htmlFor="segmentId" className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                Target Segment
               </label>
               <select
                 id="segmentId"
@@ -160,7 +176,7 @@ export default function CreateCampaignPage() {
                 value={formData.segmentId}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#526bb0] focus:border-transparent outline-none transition text-[#041d36]"
+                className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f] appearance-none cursor-pointer"
               >
                 <option value="">Select a segment</option>
                 {Array.isArray(segments) && segments.map((segment) => (
@@ -170,24 +186,24 @@ export default function CreateCampaignPage() {
                 ))}
               </select>
               {segments.length === 0 && (
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-[#86868b]">
                   No segments available.{' '}
                   <button
                     type="button"
                     onClick={() => router.push('/dashboard/segments/upload')}
-                    className="text-[#526bb0] hover:text-[#01adbd] underline"
+                    className="text-[#526bb0] hover:text-[#01adbd]"
                   >
-                    Upload a segment first
+                    Upload a segment first →
                   </button>
                 </p>
               )}
             </div>
 
             {/* Date Range */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="startDate" className="block text-[#041d36] font-semibold mb-2">
-                  Start Date *
+                <label htmlFor="startDate" className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                  Start Date
                 </label>
                 <input
                   type="datetime-local"
@@ -196,13 +212,13 @@ export default function CreateCampaignPage() {
                   value={formData.startDate}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#526bb0] focus:border-transparent outline-none transition text-[#041d36]"
+                  className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f]"
                 />
               </div>
 
               <div>
-                <label htmlFor="endDate" className="block text-[#041d36] font-semibold mb-2">
-                  End Date *
+                <label htmlFor="endDate" className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                  End Date
                 </label>
                 <input
                   type="datetime-local"
@@ -211,42 +227,62 @@ export default function CreateCampaignPage() {
                   value={formData.endDate}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#526bb0] focus:border-transparent outline-none transition text-[#041d36]"
+                  className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f]"
                 />
               </div>
             </div>
 
             {/* Info Box */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-2">📋 Campaign Workflow</h4>
-              <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
-                <li>Campaign will be created in <strong>draft</strong> status</li>
-                <li>Configure your workflow in the Flow Builder tab</li>
-                <li>Change status to <strong>scheduled</strong> when ready</li>
-                <li>Campaign will start automatically at the scheduled time</li>
+            <div className="bg-[#f5f5f7] rounded-xl p-5">
+              <h4 className="font-medium text-[#1d1d1f] mb-3 text-sm">📋 What happens next?</h4>
+              <ul className="text-sm text-[#86868b] space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="text-[#526bb0]">1.</span>
+                  Campaign will be created in draft status
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#526bb0]">2.</span>
+                  Configure your workflow in the Flow Builder
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-[#526bb0]">3.</span>
+                  Deploy and schedule when ready
+                </li>
               </ul>
             </div>
 
             {/* Submit Buttons */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 pt-4">
               <button
                 type="button"
                 onClick={() => router.push('/dashboard/campaigns')}
-                className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex-1 px-6 py-3 bg-[#f5f5f7] text-[#1d1d1f] rounded-xl font-medium hover:bg-gray-200 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={loading || segments.length === 0}
-                className="flex-1 bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-xl transition-all disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex-1 bg-[#526bb0] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#4a5f9e] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                {loading ? 'Creating...' : 'Create Campaign'}
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Creating...
+                  </>
+                ) : (
+                  'Create Campaign'
+                )}
               </button>
             </div>
           </form>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="py-8 text-center">
+        <p className="text-xs text-[#86868b]">© 2025 Campaignify. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

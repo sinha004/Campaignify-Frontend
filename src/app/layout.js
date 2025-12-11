@@ -2,8 +2,8 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
-  title: "Marketer Auth - Login & Signup",
-  description: "Authentication system for marketers",
+  title: "Campaignify - Marketing Campaign Management",
+  description: "Create, manage, and automate your marketing campaigns with powerful workflow automation",
 };
 
 export default function RootLayout({ children }) {

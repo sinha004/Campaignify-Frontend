@@ -122,30 +122,42 @@ export default function UploadSegment() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] p-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-[#fbfbfd]">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 glass border-b border-gray-200/50">
+        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => router.push('/dashboard/segments')}
+              className="text-[#526bb0] hover:text-[#01adbd] transition-colors flex items-center gap-2 text-sm font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Segments
+            </button>
+          </div>
+          <span className="text-[#1d1d1f] font-semibold">Campaignify</span>
+        </div>
+      </nav>
+
+      <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="text-[#526bb0] hover:text-[#041d36] mb-4 flex items-center gap-2"
-          >
-            ← Back to Dashboard
-          </button>
-          <h1 className="text-4xl font-bold text-[#041d36] mb-2">
-            Upload Customer Segment
+        <div className="text-center mb-12 animate-fadeInUp">
+          <h1 className="text-4xl font-semibold text-[#1d1d1f] tracking-tight mb-3">
+            Upload Segment
           </h1>
-          <p className="text-gray-600">
-            Upload a CSV file containing your target customer list
+          <p className="text-lg text-[#86868b]">
+            Import your customer list from a CSV file
           </p>
         </div>
 
-        {/* Upload Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        {/* Upload Form Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 animate-fadeInUp animation-delay-100">
           <form onSubmit={handleUpload} className="space-y-6">
             {/* Segment Name */}
             <div>
-              <label className="block text-[#041d36] font-semibold mb-2">
+              <label className="block text-[#1d1d1f] font-medium mb-2 text-sm">
                 Segment Name
               </label>
               <input
@@ -153,14 +165,14 @@ export default function UploadSegment() {
                 value={segmentName}
                 onChange={(e) => setSegmentName(e.target.value)}
                 placeholder="e.g., Tech Startup Founders"
-                className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-[#526bb0] focus:outline-none text-[#041d36] placeholder:text-gray-400"
+                className="w-full px-4 py-3 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none transition text-[#1d1d1f] placeholder:text-[#86868b]"
               />
             </div>
 
             {/* File Upload Area */}
             <div>
-              <label className="block text-[#041d36] font-semibold mb-2">
-                CSV File <span className="text-red-500">*</span>
+              <label className="block text-[#1d1d1f] font-medium mb-2 text-sm">
+                CSV File
               </label>
               
               {/* Drag and Drop Zone */}
@@ -168,10 +180,10 @@ export default function UploadSegment() {
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                className={`border-3 border-dashed rounded-xl p-8 text-center transition-all ${
+                className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all cursor-pointer ${
                   isDragging
-                    ? 'border-[#526bb0] bg-[#cad6ec]/30'
-                    : 'border-gray-300 hover:border-[#526bb0]'
+                    ? 'border-[#526bb0] bg-[#526bb0]/5'
+                    : 'border-gray-200 hover:border-[#526bb0]/50 bg-[#f5f5f7]'
                 }`}
               >
                 <input
@@ -182,30 +194,29 @@ export default function UploadSegment() {
                   className="hidden"
                 />
                 
-                <label
-                  htmlFor="file-upload"
-                  className="cursor-pointer block"
-                >
+                <label htmlFor="file-upload" className="cursor-pointer block">
                   <div className="mb-4">
-                    <svg
-                      className="mx-auto h-16 w-16 text-[#526bb0]"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                      />
-                    </svg>
+                    <div className="w-16 h-16 bg-[#526bb0]/10 rounded-2xl flex items-center justify-center mx-auto">
+                      <svg
+                        className="w-8 h-8 text-[#526bb0]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                    </div>
                   </div>
                   
                   {file ? (
-                    <div className="text-[#041d36]">
-                      <p className="font-semibold">{file.name}</p>
-                      <p className="text-sm text-gray-500">
+                    <div>
+                      <p className="font-medium text-[#1d1d1f]">{file.name}</p>
+                      <p className="text-sm text-[#86868b] mt-1">
                         {(file.size / 1024).toFixed(2)} KB
                       </p>
                       <button
@@ -214,21 +225,18 @@ export default function UploadSegment() {
                           e.preventDefault();
                           setFile(null);
                         }}
-                        className="mt-2 text-[#e51a3a] hover:underline"
+                        className="mt-3 text-[#e51a3a] text-sm hover:underline"
                       >
                         Remove file
                       </button>
                     </div>
                   ) : (
                     <div>
-                      <p className="text-[#041d36] font-semibold mb-1">
-                        Drop your CSV file here, or click to browse
+                      <p className="font-medium text-[#1d1d1f] mb-1">
+                        Drop your CSV file here
                       </p>
-                      <p className="text-sm text-gray-500">
-                        Maximum file size: 10MB
-                      </p>
-                      <p className="text-xs text-gray-400 mt-2">
-                        Required columns: name, email
+                      <p className="text-sm text-[#86868b]">
+                        or click to browse · Max 10MB
                       </p>
                     </div>
                   )}
@@ -238,16 +246,14 @@ export default function UploadSegment() {
 
             {/* Upload Progress */}
             {uploading && (
-              <div>
+              <div className="bg-[#f5f5f7] rounded-xl p-4">
                 <div className="flex justify-between text-sm mb-2">
-                  <span className="text-[#041d36]">Uploading...</span>
-                  <span className="text-[#526bb0] font-semibold">
-                    {uploadProgress}%
-                  </span>
+                  <span className="text-[#1d1d1f]">Uploading...</span>
+                  <span className="text-[#526bb0] font-medium">{uploadProgress}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-[#526bb0] to-[#01adbd] h-full transition-all duration-300"
+                    className="bg-[#526bb0] h-full transition-all duration-300"
                     style={{ width: `${uploadProgress}%` }}
                   ></div>
                 </div>
@@ -256,14 +262,14 @@ export default function UploadSegment() {
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+              <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-xl text-sm">
                 {error}
               </div>
             )}
 
             {/* Success Message */}
             {success && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+              <div className="bg-green-50 border border-green-100 text-green-600 px-4 py-3 rounded-xl text-sm">
                 {success}
               </div>
             )}
@@ -272,41 +278,56 @@ export default function UploadSegment() {
             <button
               type="submit"
               disabled={!file || uploading}
-              className="w-full bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white py-4 rounded-lg font-semibold text-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#526bb0] text-white py-4 rounded-xl font-medium hover:bg-[#4a5f9e] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {uploading ? 'Uploading...' : 'Upload Segment'}
+              {uploading ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                  Uploading...
+                </>
+              ) : (
+                'Upload Segment'
+              )}
             </button>
           </form>
         </div>
 
         {/* CSV Format Guide */}
-        <div className="mt-8 bg-white rounded-2xl shadow-lg p-6">
-          <h3 className="text-xl font-bold text-[#041d36] mb-4">
-            CSV Format Requirements
+        <div className="mt-8 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-fadeInUp animation-delay-200">
+          <h3 className="text-lg font-semibold text-[#1d1d1f] mb-4">
+            CSV Format Guide
           </h3>
-          <div className="space-y-3 text-gray-700">
-            <p>Your CSV file must include these columns:</p>
-            <ul className="list-disc list-inside space-y-1 ml-4">
-              <li>
-                <strong>name</strong> - Customer name (required)
+          <div className="space-y-3 text-[#86868b] text-sm">
+            <p>Your CSV file should include these columns:</p>
+            <ul className="list-none space-y-2 ml-0">
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-[#526bb0] rounded-full"></span>
+                <strong className="text-[#1d1d1f]">name</strong> — Customer name (required)
               </li>
-              <li>
-                <strong>email</strong> - Email address (required, must be valid format)
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-[#01adbd] rounded-full"></span>
+                <strong className="text-[#1d1d1f]">email</strong> — Email address (required)
               </li>
-              <li>Additional columns (company, phone, etc.) are optional</li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
+                Additional columns (company, phone) are optional
+              </li>
             </ul>
             
-            <div className="mt-4 bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm font-semibold mb-2">Example CSV:</p>
-              <pre className="text-xs text-gray-600 overflow-x-auto">
-{`name,email,company,phone
-John Doe,john@example.com,Acme Inc,+1234567890
-Jane Smith,jane@example.com,Tech Corp,+0987654321`}
-              </pre>
+            <div className="mt-4 bg-[#f5f5f7] p-4 rounded-xl font-mono text-xs overflow-x-auto">
+              <p className="text-[#86868b] mb-2">Example:</p>
+              <pre className="text-[#1d1d1f]">{`name,email,company
+John Doe,john@example.com,Acme Inc
+Jane Smith,jane@example.com,Tech Corp`}</pre>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="py-8 text-center">
+        <p className="text-xs text-[#86868b]">© 2025 Campaignify. All rights reserved.</p>
+      </footer>
     </div>
   );
 }

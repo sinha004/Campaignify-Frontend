@@ -19,10 +19,13 @@ export default function Home() {
   }, [isAuthenticated, loading, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-        <p className="mt-4 text-gray-600">Redirecting...</p>
+    <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
+      <div className="text-center animate-fadeInUp">
+        <div className="mb-6">
+          <span className="text-3xl font-semibold text-[#1d1d1f]">Campaignify</span>
+        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#526bb0] border-t-transparent mx-auto"></div>
+        <p className="mt-4 text-[#86868b] text-sm">Redirecting...</p>
       </div>
     </div>
   );

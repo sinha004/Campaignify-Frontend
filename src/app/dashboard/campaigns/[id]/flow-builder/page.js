@@ -288,14 +288,14 @@ function WebhookUrlField({ label, url }) {
 
   return (
     <div>
-      <p className="text-xs text-blue-600 font-medium">{label}:</p>
+      <p className="text-xs text-blue-700 font-medium">{label}:</p>
       <div className="flex items-center gap-1 mt-1">
-        <p className="flex-1 text-xs text-blue-900 break-all font-mono bg-white px-2 py-1 rounded border border-blue-100">
+        <p className="flex-1 text-xs text-blue-900 break-all font-mono bg-white px-2 py-1.5 rounded-lg">
           {url}
         </p>
         <button
           onClick={handleCopy}
-          className="p-1.5 bg-white hover:bg-blue-100 rounded border border-blue-200 transition-colors flex-shrink-0"
+          className="p-1.5 bg-white hover:bg-blue-100 rounded-lg transition-colors flex-shrink-0"
           title={copied ? 'Copied!' : 'Copy URL'}
         >
           {copied ? (
@@ -321,10 +321,12 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
 
   if (!selectedNode) {
     return (
-      <div className="w-80 bg-white border-l border-gray-200 p-4 flex-shrink-0 h-full">
-        <div className="text-center text-gray-500 py-8">
-          <Settings className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-          <p>Select a node to edit its properties</p>
+      <div className="w-80 bg-white border-l border-gray-100 p-4 flex-shrink-0 h-full">
+        <div className="text-center text-[#86868b] py-8">
+          <div className="w-12 h-12 bg-[#f5f5f7] rounded-xl flex items-center justify-center mx-auto mb-3">
+            <Settings className="w-6 h-6 text-[#86868b]" />
+          </div>
+          <p className="text-sm">Select a node to edit its properties</p>
         </div>
       </div>
     );
@@ -345,10 +347,10 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
   };
 
   return (
-    <div className="w-80 bg-white border-l border-gray-200 flex flex-col flex-shrink-0 h-full">
-      <div className="p-4 border-b border-gray-200 flex justify-between items-center flex-shrink-0">
-        <h3 className="font-semibold text-[#041d36]">Node Properties</h3>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+    <div className="w-80 bg-white border-l border-gray-100 flex flex-col flex-shrink-0 h-full">
+      <div className="p-4 border-b border-gray-100 flex justify-between items-center flex-shrink-0">
+        <h3 className="font-semibold text-[#1d1d1f]">Node Properties</h3>
+        <button onClick={onClose} className="text-[#86868b] hover:text-[#1d1d1f] transition-colors">
           <X className="w-5 h-5" />
         </button>
       </div>
@@ -356,22 +358,22 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
         {/* Node Label */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-xs font-medium text-[#86868b] mb-1.5">
             Node Label
           </label>
           <input
             type="text"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900 placeholder:text-gray-600"
+            className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] placeholder:text-[#86868b] text-sm"
             placeholder="Enter node label"
           />
         </div>
 
         {/* Webhook URLs for trigger nodes */}
         {selectedNode.type === 'trigger' && properties.webhookPath && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 space-y-2">
-            <p className="text-xs font-semibold text-blue-800">Webhook URLs (after deployment):</p>
+          <div className="bg-blue-50 rounded-xl p-3 space-y-2">
+            <p className="text-xs font-medium text-blue-700">Webhook URLs (after deployment):</p>
             <WebhookUrlField 
               label="Test URL" 
               url={`http://localhost:5678/webhook-test/${properties.webhookPath}`} 
@@ -386,11 +388,11 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
         {/* Dynamic Fields */}
         {schema.fields.map((field) => (
           <div key={field.name}>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-xs font-medium text-[#86868b] mb-1.5">
               {field.label}
             </label>
             {field.helpText && (
-              <p className="text-xs text-gray-500 mb-1">
+              <p className="text-xs text-[#86868b]/70 mb-1.5">
                 {field.helpText}
               </p>
             )}
@@ -401,7 +403,7 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
                 value={properties[field.name] || ''}
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 placeholder={field.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900 placeholder:text-gray-600"
+                className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] placeholder:text-[#86868b] text-sm"
               />
             )}
             
@@ -411,7 +413,7 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
                 value={properties[field.name] || ''}
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 placeholder={field.placeholder}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900 placeholder:text-gray-600"
+                className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] placeholder:text-[#86868b] text-sm"
               />
             )}
             
@@ -421,7 +423,7 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 placeholder={field.placeholder}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900 placeholder:text-gray-600"
+                className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] placeholder:text-[#86868b] text-sm"
               />
             )}
             
@@ -429,10 +431,10 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
               <select
                 value={properties[field.name] || field.options[0]}
                 onChange={(e) => handleChange(field.name, e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900"
+                className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] text-sm"
               >
                 {field.options.map((opt) => (
-                  <option key={opt} value={opt} className="text-gray-900">{opt}</option>
+                  <option key={opt} value={opt} className="text-[#1d1d1f]">{opt}</option>
                 ))}
               </select>
             )}
@@ -452,7 +454,7 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
                 onChange={(e) => handleChange(field.name, e.target.value)}
                 placeholder={field.placeholder}
                 rows={12}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#526bb0] focus:border-transparent text-gray-900 placeholder:text-gray-600 font-mono text-sm bg-gray-50"
+                className="w-full px-3 py-2 bg-[#f5f5f7] border-0 rounded-xl focus:ring-2 focus:ring-[#526bb0] outline-none text-[#1d1d1f] placeholder:text-[#86868b] font-mono text-xs"
                 spellCheck={false}
               />
             )}
@@ -462,17 +464,17 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
                 type="text"
                 value={properties[field.name] || ''}
                 readOnly
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed"
+                className="w-full px-3 py-2 bg-gray-100 rounded-xl text-[#86868b] cursor-not-allowed text-sm"
               />
             )}
           </div>
         ))}
       </div>
 
-      <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
+      <div className="p-4 border-t border-gray-100 bg-white flex-shrink-0">
         <button
           onClick={handleSave}
-          className="w-full bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white py-2 rounded-lg font-semibold hover:shadow-lg transition-all"
+          className="w-full bg-[#526bb0] text-white py-2.5 rounded-xl font-medium hover:bg-[#01adbd] transition-colors text-sm"
         >
           Apply Changes
         </button>
@@ -484,15 +486,15 @@ function PropertyEditor({ selectedNode, onUpdate, onClose }) {
 // Node Palette Sidebar
 function NodePalette({ onDragStart }) {
   return (
-    <div className="w-64 bg-white border-r border-gray-200 flex-shrink-0 h-full overflow-y-auto">
-      <div className="p-4 border-b border-gray-200">
-        <h3 className="font-semibold text-[#041d36]">Node Types</h3>
-        <p className="text-xs text-gray-700 mt-1">Drag nodes to the canvas</p>
+    <div className="w-64 bg-white border-r border-gray-100 flex-shrink-0 h-full overflow-y-auto">
+      <div className="p-4 border-b border-gray-100">
+        <h3 className="font-semibold text-[#1d1d1f]">Node Types</h3>
+        <p className="text-xs text-[#86868b] mt-1">Drag nodes to the canvas</p>
       </div>
       
       {nodeCategories.map((category) => (
-        <div key={category.name} className="p-4 border-b border-gray-100">
-          <h4 className="text-xs font-semibold text-gray-700 uppercase tracking-wider mb-3">
+        <div key={category.name} className="p-4 border-b border-gray-50">
+          <h4 className="text-xs font-medium text-[#86868b] uppercase tracking-wider mb-3">
             {category.name}
           </h4>
           <div className="space-y-2">
@@ -504,13 +506,13 @@ function NodePalette({ onDragStart }) {
                   key={node.type}
                   draggable
                   onDragStart={(e) => onDragStart(e, node)}
-                  className={`p-3 rounded-lg border-2 cursor-grab active:cursor-grabbing ${style} hover:shadow-md transition-shadow`}
+                  className={`p-3 rounded-xl border-2 cursor-grab active:cursor-grabbing ${style} hover:shadow-md transition-all`}
                 >
                   <div className="flex items-center gap-2">
                     <Icon className="w-4 h-4 text-black" />
                     <span className="text-sm font-medium text-black">{node.label}</span>
                   </div>
-                  <p className="text-xs text-black mt-1">{node.description}</p>
+                  <p className="text-xs text-black/70 mt-1">{node.description}</p>
                 </div>
               );
             })}
@@ -672,7 +674,7 @@ function FlowBuilderCanvas({ campaignId, initialFlow, onSave, onDeploy }) {
           nodeTypes={nodeTypes}
           fitView
           deleteKeyCode={['Backspace', 'Delete']}
-          className="bg-gray-100"
+          className="bg-[#f5f5f7]"
         >
           <Background variant="dots" gap={16} size={1} color="#d1d5db" />
           <Controls />
@@ -698,7 +700,7 @@ function FlowBuilderCanvas({ campaignId, initialFlow, onSave, onDeploy }) {
           {selectedNode && (
             <button
               onClick={deleteSelectedNode}
-              className="bg-white px-4 py-2 rounded-lg shadow-md hover:bg-red-50 flex items-center gap-2 text-red-600"
+              className="bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 hover:bg-red-50 flex items-center gap-2 text-red-600 transition-colors text-sm font-medium"
             >
               <Trash2 className="w-4 h-4" />
               Delete
@@ -706,14 +708,14 @@ function FlowBuilderCanvas({ campaignId, initialFlow, onSave, onDeploy }) {
           )}
           <button
             onClick={handleSave}
-            className="bg-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-50 flex items-center gap-2 text-gray-700"
+            className="bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 hover:bg-gray-50 flex items-center gap-2 text-[#1d1d1f] transition-colors text-sm font-medium"
           >
             <Save className="w-4 h-4" />
             Save
           </button>
           <button
             onClick={handleDeploy}
-            className="bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg flex items-center gap-2"
+            className="bg-[#526bb0] text-white px-4 py-2 rounded-xl shadow-sm hover:bg-[#01adbd] flex items-center gap-2 transition-colors text-sm font-medium"
           >
             <Upload className="w-4 h-4" />
             Deploy to n8n
@@ -813,10 +815,10 @@ export default function FlowBuilderPage() {
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fbfbfd] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#526bb0] mx-auto mb-4"></div>
-          <p className="text-[#041d36] font-semibold">Loading flow builder...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#526bb0] border-t-transparent mx-auto mb-4"></div>
+          <p className="text-[#86868b]">Loading flow builder...</p>
         </div>
       </div>
     );
@@ -824,13 +826,18 @@ export default function FlowBuilderPage() {
 
   if (error && !campaign) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] p-8">
+      <div className="min-h-screen bg-[#fbfbfd] p-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
-            <p className="text-red-700 text-lg">{error}</p>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+            <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <p className="text-[#1d1d1f] text-lg mb-4">{error}</p>
             <button
               onClick={() => router.push('/dashboard/campaigns')}
-              className="mt-4 text-[#526bb0] hover:text-[#041d36]"
+              className="text-[#526bb0] hover:text-[#01adbd] font-medium"
             >
               ← Back to Campaigns
             </button>
@@ -841,44 +848,45 @@ export default function FlowBuilderPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100 overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#fbfbfd] overflow-hidden">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+      <div className="glass border-b border-gray-200/50 px-6 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push(`/dashboard/campaigns/${params.id}`)}
-            className="text-gray-600 hover:text-[#526bb0] flex items-center gap-2"
+            className="text-[#526bb0] hover:text-[#01adbd] transition-colors flex items-center gap-2 text-sm font-medium"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
             Back
           </button>
-          <div className="h-6 w-px bg-gray-300" />
+          <div className="h-5 w-px bg-gray-300" />
           <div>
-            <h1 className="text-lg font-bold text-[#041d36]">
+            <h1 className="text-sm font-semibold text-[#1d1d1f]">
               Flow Builder: {campaign?.name}
             </h1>
-            <p className="text-sm text-gray-600">
-              Design your campaign automation workflow
+            <p className="text-xs text-[#86868b]">
+              Design your campaign workflow
             </p>
           </div>
         </div>
         
         <div className="flex items-center gap-4">
           {campaign?.n8nWorkflowId && (
-            <span className="text-sm text-green-600 flex items-center gap-1">
+            <span className="text-xs text-green-600 flex items-center gap-1 bg-green-50 px-3 py-1 rounded-full">
               ✓ Deployed to n8n
             </span>
           )}
           {saving && (
-            <span className="text-sm text-gray-700 font-medium">Saving...</span>
+            <span className="text-xs text-[#86868b]">Saving...</span>
           )}
+          <span className="text-sm font-semibold text-[#1d1d1f]">Campaignify</span>
         </div>
       </div>
 
       {/* Messages */}
       {(error || successMessage) && (
-        <div className={`px-6 py-3 flex-shrink-0 ${error ? 'bg-red-100' : 'bg-green-100'}`}>
-          <p className={`text-sm ${error ? 'text-red-700' : 'text-green-700'}`}>
+        <div className={`px-6 py-3 flex-shrink-0 ${error ? 'bg-red-50 border-b border-red-100' : 'bg-green-50 border-b border-green-100'}`}>
+          <p className={`text-sm font-medium ${error ? 'text-red-700' : 'text-green-700'}`}>
             {error || successMessage}
           </p>
         </div>

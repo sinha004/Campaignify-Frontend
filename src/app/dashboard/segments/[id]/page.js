@@ -126,10 +126,10 @@ export default function SegmentDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fbfbfd] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-[#526bb0] mx-auto mb-4"></div>
-          <p className="text-[#041d36] font-semibold">Loading segment details...</p>
+          <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#526bb0] border-t-transparent mx-auto mb-4"></div>
+          <p className="text-[#86868b]">Loading segment details...</p>
         </div>
       </div>
     );
@@ -137,14 +137,18 @@ export default function SegmentDetails() {
 
   if (error || !segment) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] flex items-center justify-center p-8">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold text-[#041d36] mb-2">Error</h2>
-          <p className="text-gray-600 mb-6">{error || 'Segment not found'}</p>
+      <div className="min-h-screen bg-[#fbfbfd] flex items-center justify-center p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-md w-full text-center">
+          <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-[#1d1d1f] mb-2">Error</h2>
+          <p className="text-[#86868b] mb-6">{error || 'Segment not found'}</p>
           <button
             onClick={() => router.push('/dashboard/segments')}
-            className="bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-xl transition-all"
+            className="bg-[#526bb0] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#4a5f9e] transition-colors"
           >
             Back to Segments
           </button>
@@ -154,305 +158,166 @@ export default function SegmentDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#cad6ec] via-white to-[#5fcde0] p-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[#fbfbfd]">
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 glass border-b border-gray-200/50">
+        <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => router.push('/dashboard/segments')}
+              className="text-[#526bb0] hover:text-[#01adbd] transition-colors flex items-center gap-2 text-sm font-medium"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Segments
+            </button>
+          </div>
+          <span className="text-[#1d1d1f] font-semibold">Campaignify</span>
+        </div>
+      </nav>
+
+      <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => router.push('/dashboard/segments')}
-            className="text-[#526bb0] hover:text-[#041d36] mb-4 flex items-center gap-2"
-          >
-            ← Back to Segments
-          </button>
-          <h1 className="text-4xl font-bold text-[#041d36] mb-2">
-            Segment Details
+        <div className="mb-10 animate-fadeInUp">
+          <h1 className="text-3xl font-semibold text-[#1d1d1f] tracking-tight mb-2">
+            {segment.name}
           </h1>
-          <p className="text-gray-600">
-            View and manage your customer segment
+          <p className="text-[#86868b]">
+            ID: {segment.id}
           </p>
         </div>
 
-        {/* Segment Info Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-6">
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h2 className="text-3xl font-bold text-[#041d36] mb-2">
-                {segment.name}
-              </h2>
-              <p className="text-gray-500">ID: {segment.id}</p>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={handleDownload}
-                disabled={downloading}
-                className="bg-gradient-to-r from-[#01adbd] to-[#5fcde0] text-white px-6 py-3 rounded-lg font-semibold hover:shadow-xl transition-all flex items-center gap-2 disabled:opacity-50"
-              >
-                {downloading ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-white"></div>
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                      />
-                    </svg>
-                    Download CSV
-                  </>
-                )}
-              </button>
-              <button
-                onClick={handleDelete}
-                className="bg-[#e51a3a] text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-all flex items-center gap-2"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 animate-fadeInUp animation-delay-100">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#526bb0]/10 rounded-xl flex items-center justify-center">
+                <svg className="w-5 h-5 text-[#526bb0]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                Delete
-              </button>
-            </div>
-          </div>
-
-          {/* Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#526bb0] p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">File Name</p>
-                  <p className="text-lg font-semibold text-[#041d36]">
-                    {segment.fileName}
-                  </p>
-                </div>
               </div>
-            </div>
-
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#01adbd] p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Total Records</p>
-                  <p className="text-lg font-semibold text-[#041d36]">
-                    {segment.totalRecords.toLocaleString()} contacts
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#5fcde0] p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">File Size</p>
-                  <p className="text-lg font-semibold text-[#041d36]">
-                    {formatFileSize(segment.fileSize)}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-[#604e43] p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Uploaded</p>
-                  <p className="text-lg font-semibold text-[#041d36]">
-                    {formatDate(segment.uploadedAt)}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-green-500 p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Status</p>
-                  <p className="text-lg font-semibold text-[#041d36] capitalize">
-                    {segment.status}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-2 border-gray-200 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-purple-500 p-2 rounded-lg">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">S3 Storage</p>
-                  <p className="text-sm font-semibold text-[#041d36] truncate max-w-xs">
-                    {segment.s3Key}
-                  </p>
-                </div>
+              <div>
+                <p className="text-2xl font-semibold text-[#1d1d1f]">{segment.totalRecords.toLocaleString()}</p>
+                <p className="text-xs text-[#86868b]">Total Contacts</p>
               </div>
             </div>
           </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#01adbd]/10 rounded-xl flex items-center justify-center">
+                <svg className="w-5 h-5 text-[#01adbd]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[#1d1d1f] truncate max-w-[120px]">{segment.fileName}</p>
+                <p className="text-xs text-[#86868b]">File Name</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                <svg className="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[#1d1d1f]">{formatFileSize(segment.fileSize)}</p>
+                <p className="text-xs text-[#86868b]">File Size</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                <svg className="w-5 h-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-[#1d1d1f] capitalize">{segment.status}</p>
+                <p className="text-xs text-[#86868b]">Status</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Actions & Info */}
+        <div className="flex flex-wrap gap-3 mb-8 animate-fadeInUp animation-delay-200">
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="bg-[#526bb0] text-white px-5 py-2.5 rounded-xl font-medium hover:bg-[#4a5f9e] transition-colors flex items-center gap-2 disabled:opacity-50"
+          >
+            {downloading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                Generating...
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download CSV
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleDelete}
+            className="bg-red-50 text-red-600 px-5 py-2.5 rounded-xl font-medium hover:bg-red-100 transition-colors flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Delete
+          </button>
+          <div className="flex-1"></div>
+          <p className="text-sm text-[#86868b] self-center">
+            Uploaded {formatDate(segment.uploadedAt)}
+          </p>
         </div>
 
         {/* CSV Data Table */}
         {loadingCsv ? (
-          <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-[#526bb0] mx-auto mb-4"></div>
-            <p className="text-[#041d36] font-semibold">Loading CSV data...</p>
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center animate-fadeInUp animation-delay-300">
+            <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#526bb0] border-t-transparent mx-auto mb-4"></div>
+            <p className="text-[#86868b]">Loading CSV data...</p>
           </div>
         ) : csvData.length > 0 ? (
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeInUp animation-delay-300">
+            <div className="p-5 border-b border-gray-100 flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-[#041d36]">Customer Data</h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Showing {csvData.length} records from {segment.fileName}
+                <h3 className="font-semibold text-[#1d1d1f]">Customer Data</h3>
+                <p className="text-sm text-[#86868b] mt-0.5">
+                  Showing {csvData.length} records
                 </p>
               </div>
-              <button
-                onClick={handleDownload}
-                disabled={downloading}
-                className="bg-[#01adbd] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#5fcde0] transition-all flex items-center gap-2 text-sm"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-                Download Full CSV
-              </button>
             </div>
             
-            <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+            <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
               <table className="w-full">
-                <thead className="bg-gradient-to-r from-[#526bb0] to-[#01adbd] text-white sticky top-0">
+                <thead className="bg-[#f5f5f7] sticky top-0">
                   <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-sm">#</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-[#86868b] uppercase tracking-wider">#</th>
                     {csvHeaders.map((header, index) => (
-                      <th key={index} className="px-4 py-3 text-left font-semibold text-sm">
+                      <th key={index} className="px-4 py-3 text-left text-xs font-semibold text-[#86868b] uppercase tracking-wider">
                         {header}
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-100">
                   {csvData.map((row, rowIndex) => (
-                    <tr
-                      key={rowIndex}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-4 py-3 text-sm text-gray-500 font-medium">
-                        {rowIndex + 1}
-                      </td>
+                    <tr key={rowIndex} className="hover:bg-[#f5f5f7]/50 transition-colors">
+                      <td className="px-4 py-3 text-sm text-[#86868b]">{rowIndex + 1}</td>
                       {csvHeaders.map((header, colIndex) => (
-                        <td key={colIndex} className="px-4 py-3 text-sm text-[#041d36]">
+                        <td key={colIndex} className="px-4 py-3 text-sm text-[#1d1d1f]">
                           {row[header]}
                         </td>
                       ))}
@@ -463,25 +328,12 @@ export default function SegmentDetails() {
             </div>
           </div>
         ) : null}
-
-        {/* Info Box */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mt-6">
-          <div className="flex items-start gap-4">
-            <div className="text-3xl">📊</div>
-            <div>
-              <h3 className="font-semibold text-[#041d36] mb-2">
-                About This Segment
-              </h3>
-              <p className="text-gray-600 text-sm">
-                This customer segment contains <strong>{segment.totalRecords} records</strong> and was
-                uploaded on {formatDate(segment.uploadedAt)}. The file is securely stored in AWS S3 and can be
-                downloaded at any time using the button above. You can use this segment to target specific
-                customers in your marketing campaigns.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="py-8 text-center">
+        <p className="text-xs text-[#86868b]">© 2025 Campaignify. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
