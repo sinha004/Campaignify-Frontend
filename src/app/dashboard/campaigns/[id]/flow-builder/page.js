@@ -532,9 +532,16 @@ function FlowBuilderCanvas({ campaignId, initialFlow, onSave, onDeploy }) {
   const [showPropertyEditor, setShowPropertyEditor] = useState(false);
   const { screenToFlowPosition } = useReactFlow();
 
+  // Prevent self-connections
+  const isValidConnection = useCallback(
+    (connection) => connection.source !== connection.target,
+    []
+  );
+
   // Handle connections between nodes
   const onConnect = useCallback(
     (params) => {
+      if (params.source === params.target) return;
       setEdges((eds) =>
         addEdge(
           {
@@ -672,6 +679,7 @@ function FlowBuilderCanvas({ campaignId, initialFlow, onSave, onDeploy }) {
           onDrop={onDrop}
           onDragOver={onDragOver}
           nodeTypes={nodeTypes}
+          isValidConnection={isValidConnection}
           fitView
           deleteKeyCode={['Backspace', 'Delete']}
           className="bg-[#f5f5f7]"
