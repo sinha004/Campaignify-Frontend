@@ -2,81 +2,55 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { LayoutDashboard, Users, BarChart3, LogOut } from 'lucide-react';
 
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { logout } = useAuth();
-  
+  const { user, logout } = useAuth();
+
   const navItems = [
-    {
-      name: 'Dashboard',
-      href: '/dashboard',
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      ),
-    },
-    {
-      name: 'Customer Segments',
-      href: '/dashboard/segments',
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      ),
-    },
-    {
-      name: 'Campaigns',
-      href: '/dashboard/campaigns',
-      icon: (
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-        </svg>
-      ),
-    },
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'Segments', href: '/dashboard/segments', icon: Users },
+    { name: 'Campaigns', href: '/dashboard/campaigns', icon: BarChart3 },
   ];
 
-  // Check if current path matches or is a child of the nav item
   const isActive = (href) => {
-    if (href === '/dashboard') {
-      return pathname === '/dashboard';
-    }
+    if (href === '/dashboard') return pathname === '/dashboard';
     return pathname.startsWith(href);
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-100 z-40 flex flex-col">
+    <aside className="fixed left-0 top-0 h-screen w-60 bg-white border-r border-gray-200 z-40 flex flex-col">
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-100">
-        <button 
+      <div className="h-14 flex items-center px-5 border-b border-gray-200">
+        <button
           onClick={() => router.push('/dashboard')}
-          className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#526bb0] to-[#01adbd] flex items-center justify-center">
-            <span className="text-white text-sm font-bold">C</span>
+          <div className="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center">
+            <span className="text-white text-xs font-bold">C</span>
           </div>
-          <span className="text-lg font-semibold text-[#1d1d1f]">Campaignify</span>
+          <span className="text-[15px] font-semibold text-gray-900">Campaignify</span>
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map((item) => {
           const active = isActive(item.href);
+          const Icon = item.icon;
           return (
             <button
               key={item.name}
               onClick={() => router.push(item.href)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors ${
                 active
-                  ? 'bg-[#526bb0] text-white shadow-lg shadow-[#526bb0]/20'
-                  : 'text-[#86868b] hover:bg-[#f5f5f7] hover:text-[#1d1d1f]'
+                  ? 'bg-indigo-50 text-indigo-700'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
-              {item.icon}
+              <Icon className="w-4 h-4" />
               {item.name}
             </button>
           );
@@ -84,15 +58,19 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom section */}
-      <div className="px-4 py-4 border-t border-gray-100">
+      <div className="px-3 py-3 border-t border-gray-200">
+        {user && (
+          <div className="px-3 py-2 mb-2">
+            <p className="text-[13px] font-medium text-gray-900 truncate">{user.name || 'User'}</p>
+            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+          </div>
+        )}
         <button
           onClick={logout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-[#86868b] hover:bg-red-50 hover:text-[#e51a3a] transition-all duration-200"
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          Sign Out
+          <LogOut className="w-4 h-4" />
+          Sign out
         </button>
       </div>
     </aside>
